@@ -4,10 +4,9 @@ namespace Assets.Scripts.Movement
 {
     public class PlayerMovementController : MonoBehaviour
     {
-        public MovementButton currentMovementButton;
-        public MovementMediator movementMediator;
+        private MovementMediator movementMediator;
 
-        [SerializeField] private Rigidbody rigidbody;
+        private Rigidbody rigidbody;
 
         private Vector3 moveDirection;
 
@@ -29,36 +28,22 @@ namespace Assets.Scripts.Movement
 
         void Update()
         {
-            if (!isMoving)
-            {
-                return;
-            }
-            if (currentMovementButton.isHorizontalMovementButton)
-            {
-                MoveHorizontal(moveDirection);
-            }
-            else
-            {
-                MoveVertical(moveDirection);
-            }
-        }
+            if (!isMoving) return;
 
-        public void MoveHorizontal(Vector3 moveDirection)
-        {
-            this.moveDirection = currentMovementButton.moveDirection;
-            moveDirection = this.moveDirection;
             Vector3 newPosition = rigidbody.position + moveDirection * (moveSpeed * Time.deltaTime);
             rigidbody.MovePosition(newPosition);
             ClampPosition();
         }
 
-        public void MoveVertical(Vector3 moveDirection)
+        private void StartMovement(Vector3 direction)
         {
-            this.moveDirection = currentMovementButton.moveDirection;
-            moveDirection = this.moveDirection;
-            Vector3 newPosition = rigidbody.position + moveDirection * (moveSpeed * Time.deltaTime);
-            rigidbody.MovePosition(newPosition);
-            ClampPosition();
+            moveDirection = direction;
+            isMoving = true;
+        }
+
+        private void StopMovement()
+        {
+            isMoving = false;
         }
 
         private void ClampPosition()
@@ -71,14 +56,14 @@ namespace Assets.Scripts.Movement
 
         void OnEnable()
         {
-            movementMediator.OnMovementStarted += MoveHorizontal;
-            movementMediator.OnMovementStarted += MoveVertical;
-
+            movementMediator.OnMovementStarted += StartMovement;
+            movementMediator.OnMovementStopped += StopMovement;
         }
+
         void OnDisable()
         {
-            movementMediator.OnMovementStarted -= MoveHorizontal;
-            movementMediator.OnMovementStarted -= MoveVertical;
+            movementMediator.OnMovementStarted -= StartMovement;
+            movementMediator.OnMovementStopped -= StopMovement;
         }
     }
 }
