@@ -7,7 +7,6 @@ public class TransformChanger : MonoBehaviour
     private TransformMemento originalTransformMemento;
     private Coroutine scaleRoutine;
 
-    [SerializeField] private CapsuleCollider originalCapsuleCollider;
     [SerializeField] private float scaleDuration = 0.5f;
 
     void Awake()
@@ -19,40 +18,35 @@ public class TransformChanger : MonoBehaviour
     {
         if (originalTransformMemento == null)
         {
-            originalTransformMemento = new TransformMemento(transform.localScale, transform.localPosition, args.TargetCapsuleCollider);
+            originalTransformMemento = new TransformMemento(transform.localScale, transform.localPosition);
         }
 
-        StartScaleRoutine(args.TargetScale, args.TargetCapsuleCollider);
+        StartScaleRoutine(args.TargetScale);
     }
 
     public void RestoreScale(object sender, EffectiveAreaEventArgs args)
     {
         if (originalTransformMemento != null)
         {
-            StartScaleRoutine(originalTransformMemento.Scale, originalCapsuleCollider);
+            StartScaleRoutine(originalTransformMemento.Scale);
             originalTransformMemento = null;
         }
     }
 
-    private void StartScaleRoutine(Vector3 targetScale, CapsuleCollider targetCapsuleCollider)
+    private void StartScaleRoutine(Vector3 targetScale)
     {
         if (scaleRoutine != null) StopCoroutine(scaleRoutine);
-        scaleRoutine = StartCoroutine(SmoothScale(targetScale, targetCapsuleCollider));
+        scaleRoutine = StartCoroutine(SmoothScale(targetScale));
     }
 
-    private IEnumerator SmoothScale(Vector3 targetScale, CapsuleCollider targetCapsuleCollider)
+    private IEnumerator SmoothScale(Vector3 targetScale)
     {
-        CapsuleCollider originalCapsuleCollider = this.originalCapsuleCollider;
         Vector3 startScale = transform.localScale;
         float elapsed = 0f;
-        float speed = 0f;
 
         while (elapsed < scaleDuration)
         {
             transform.localScale = Vector3.Lerp(startScale, targetScale, elapsed / scaleDuration);
-            originalCapsuleCollider.center = Vector3.Lerp(originalCapsuleCollider.center, targetCapsuleCollider.center, elapsed / scaleDuration);
-            originalCapsuleCollider.radius = Mathf.SmoothDamp(originalCapsuleCollider.radius, targetCapsuleCollider.radius, ref speed, 10f);
-            originalCapsuleCollider.height = Mathf.SmoothDamp(originalCapsuleCollider.height, targetCapsuleCollider.height, ref speed, 10f);
             elapsed += Time.deltaTime;
             yield return null;
         }

@@ -4,12 +4,10 @@ public class TransformMemento
 {
     public Vector3 Scale { get; }
     public Vector3 Position { get; }
-    public CapsuleCollider CapsuleCollider { get; }
 
-    public TransformMemento(Vector3 scale, Vector3 position, CapsuleCollider capsuleCollider)
+    public TransformMemento(Vector3 scale, Vector3 position)
     {
         Scale = scale;
-        CapsuleCollider = capsuleCollider;
         Position = position;
     }
 }

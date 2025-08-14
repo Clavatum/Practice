@@ -10,7 +10,6 @@ public class TriggerPublisher : MonoBehaviour
     [SerializeField] private AudioClip enterAreaClip;
     [SerializeField] private AudioClip exitAreaClip;
     [SerializeField] private Vector3 targetScale;
-    [SerializeField] private CapsuleCollider targetCapsuleCollider;
 
     void Awake()
     {
@@ -20,12 +19,12 @@ public class TriggerPublisher : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerMovementController>() == null) { return; }
-        mediator.TriggerEnteredEffectiveArea(areaName, enterAreaClip, targetScale, targetCapsuleCollider);
+        mediator.TriggerEnteredEffectiveArea(areaName, enterAreaClip, targetScale);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<PlayerMovementController>() == null) { return; }
-        mediator.TriggerExitedEffectiveArea(areaName, exitAreaClip, targetScale, targetCapsuleCollider);
+        mediator.TriggerExitedEffectiveArea(areaName, exitAreaClip, targetScale);
     }
 }
