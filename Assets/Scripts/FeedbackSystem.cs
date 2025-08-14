@@ -12,25 +12,25 @@ public class FeedbackSystem : MonoBehaviour
         mediator = FindAnyObjectByType<Mediator>();
     }
 
-    public void SetFeedback(string areaName)
+    public void SetFeedback(object sender, EffectiveAreaEventArgs args)
     {
-        feedbackText.text = $"You have entered an area makes you {areaName}!";
+        feedbackText.text = $"You have entered an area makes you {args.AreaName}!";
     }
 
-    public void ResetFeedback()
+    public void ResetFeedback(object sender, EffectiveAreaEventArgs args)
     {
         feedbackText.text = "";
     }
 
     void OnEnable()
     {
-        mediator.OnEnteredEffectiveArea += (sender, args) => { SetFeedback(args.AreaName); };
-        mediator.OnExitedEffectiveArea += (sender, args) => { ResetFeedback(); };
+        mediator.OnEnteredEffectiveArea += SetFeedback;
+        mediator.OnExitedEffectiveArea += ResetFeedback;
     }
 
     void OnDisable()
     {
-        mediator.OnEnteredEffectiveArea -= (sender, args) => { SetFeedback(args.AreaName); };
-        mediator.OnExitedEffectiveArea -= (sender, args) => { ResetFeedback(); };
+        mediator.OnEnteredEffectiveArea -= SetFeedback;
+        mediator.OnExitedEffectiveArea -= ResetFeedback;
     }
 }

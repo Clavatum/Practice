@@ -15,17 +15,17 @@ public class TransformChanger : MonoBehaviour
         mediator = FindAnyObjectByType<Mediator>();
     }
 
-    public void ChangeScale(Vector3 targetScale, CapsuleCollider targetCapsuleCollider)
+    public void ChangeScale(object sender, EffectiveAreaEventArgs args)
     {
         if (originalTransformMemento == null)
         {
-            originalTransformMemento = new TransformMemento(transform.localScale, transform.localPosition, targetCapsuleCollider);
+            originalTransformMemento = new TransformMemento(transform.localScale, transform.localPosition, args.TargetCapsuleCollider);
         }
 
-        StartScaleRoutine(targetScale, targetCapsuleCollider);
+        StartScaleRoutine(args.TargetScale, args.TargetCapsuleCollider);
     }
 
-    public void RestoreScale()
+    public void RestoreScale(object sender, EffectiveAreaEventArgs args)
     {
         if (originalTransformMemento != null)
         {
@@ -61,13 +61,13 @@ public class TransformChanger : MonoBehaviour
 
     void OnEnable()
     {
-        mediator.OnEnteredEffectiveArea += (sender, args) => { ChangeScale(args.TargetScale, args.TargetCapsuleCollider); };
-        mediator.OnExitedEffectiveArea += (sender, args) => { RestoreScale(); };
+        mediator.OnEnteredEffectiveArea += ChangeScale;
+        mediator.OnExitedEffectiveArea += RestoreScale;
     }
 
     void OnDisable()
     {
-        mediator.OnEnteredEffectiveArea -= (sender, args) => { ChangeScale(args.TargetScale, args.TargetCapsuleCollider); };
-        mediator.OnExitedEffectiveArea -= (sender, args) => { RestoreScale(); };
+        mediator.OnEnteredEffectiveArea -= ChangeScale;
+        mediator.OnExitedEffectiveArea -= RestoreScale;
     }
 }

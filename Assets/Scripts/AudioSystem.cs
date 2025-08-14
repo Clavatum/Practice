@@ -11,20 +11,20 @@ public class AudioSystem : MonoBehaviour
         mediator = FindAnyObjectByType<Mediator>();
     }
 
-    private void PlaySound(AudioClip audioClip)
+    private void PlaySound(object sender, EffectiveAreaEventArgs args)
     {
-        audioSource.PlayOneShot(audioClip);
+        audioSource.PlayOneShot(args.AudioClip);
     }
 
     void OnEnable()
     {
-        mediator.OnEnteredEffectiveArea += (sender, args) => { PlaySound(args.AudioClip); };
-        mediator.OnExitedEffectiveArea += (sender, args) => PlaySound(args.AudioClip);
+        mediator.OnEnteredEffectiveArea += PlaySound;
+        mediator.OnExitedEffectiveArea += PlaySound;
     }
 
     void OnDisable()
     {
-        mediator.OnEnteredEffectiveArea -= (sender, args) => { PlaySound(args.AudioClip); };
-        mediator.OnExitedEffectiveArea -= (sender, args) => PlaySound(args.AudioClip);
+        mediator.OnEnteredEffectiveArea -= PlaySound;
+        mediator.OnExitedEffectiveArea -= PlaySound;
     }
 }
