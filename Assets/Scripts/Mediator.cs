@@ -12,6 +12,12 @@ public class Mediator : MonoBehaviour
     public void TriggerMovementStart(Vector3 movementDirection) => OnMovementStarted?.Invoke(movementDirection);
     public void TriggerMovementStop() => OnMovementStopped?.Invoke();
 
-    public void TriggerEnteredEffectiveArea(string feedback, AudioClip audioClip, Vector3 targetScale, CapsuleCollider targetCapsuleCollider) => OnEnteredEffectiveArea?.Invoke(this, new EffectiveAreaEventArgs(feedback, audioClip, targetScale, targetCapsuleCollider));
-    public void TriggerExitedEffectiveArea(string feedback, AudioClip audioClip, Vector3 targetScale, CapsuleCollider targetCapsuleCollider) => OnExitedEffectiveArea?.Invoke(this, new EffectiveAreaEventArgs(feedback, audioClip, targetScale, targetCapsuleCollider));
+    public void TriggerEnteredEffectiveArea(string feedback, AudioClip audioClip, Vector3 targetScale, CapsuleCollider targetCapsuleCollider)
+    {
+        OnEnteredEffectiveArea?.Invoke(this, new EffectiveAreaEventArgs(feedback, audioClip, targetScale, targetCapsuleCollider));
+    }
+    public void TriggerExitedEffectiveArea(string feedback, AudioClip audioClip, Vector3 targetScale, CapsuleCollider targetCapsuleCollider)
+    {
+        OnExitedEffectiveArea?.Invoke(this, new EffectiveAreaEventArgs(feedback, audioClip, targetScale, targetCapsuleCollider));
+    }
 }

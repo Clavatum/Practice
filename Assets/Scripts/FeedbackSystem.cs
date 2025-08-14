@@ -6,7 +6,6 @@ public class FeedbackSystem : MonoBehaviour
     private Mediator mediator;
 
     [SerializeField] private TextMeshProUGUI feedbackText;
-    private string areaName;
 
     void Awake()
     {
@@ -15,7 +14,6 @@ public class FeedbackSystem : MonoBehaviour
 
     public void SetFeedback(string areaName)
     {
-        this.areaName = areaName;
         feedbackText.text = $"You have entered an area makes you {areaName}!";
     }
 

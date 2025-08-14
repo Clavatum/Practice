@@ -1,14 +1,13 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor;
 
 public class TransformChanger : MonoBehaviour
 {
     private Mediator mediator;
     private TransformMemento originalTransformMemento;
     private Coroutine scaleRoutine;
-    [SerializeField] private CapsuleCollider originalCapsuleCollider;
 
+    [SerializeField] private CapsuleCollider originalCapsuleCollider;
     [SerializeField] private float scaleDuration = 0.5f;
 
     void Awake()

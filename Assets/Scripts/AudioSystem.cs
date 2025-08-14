@@ -1,4 +1,3 @@
-using Assets.Scripts.Movement;
 using UnityEngine;
 
 public class AudioSystem : MonoBehaviour
@@ -6,7 +5,6 @@ public class AudioSystem : MonoBehaviour
     private Mediator mediator;
 
     [SerializeField] private AudioSource audioSource;
-    private AudioClip audioClip;
 
     void Awake()
     {
@@ -15,7 +13,6 @@ public class AudioSystem : MonoBehaviour
 
     private void PlaySound(AudioClip audioClip)
     {
-        this.audioClip = audioClip;
         audioSource.PlayOneShot(audioClip);
     }
 
