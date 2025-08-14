@@ -5,23 +5,23 @@ namespace Assets.Scripts.Movement
 {
     public class MovementButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        private MovementMediator movementMediator;
+        private Mediator mediator;
 
         [SerializeField] private Vector3 moveDirection;
 
         void Awake()
         {
-            movementMediator = FindAnyObjectByType<MovementMediator>();
+            mediator = FindAnyObjectByType<Mediator>();
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            movementMediator.TriggerMovementStart(moveDirection);
+            mediator.TriggerMovementStart(moveDirection);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            movementMediator.TriggerMovementStop();
+            mediator.TriggerMovementStop();
         }
     }
 }

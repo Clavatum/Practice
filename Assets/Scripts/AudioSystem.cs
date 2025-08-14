@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class AudioSystem : MonoBehaviour
 {
-    private MovementMediator movementMediator;
+    private Mediator mediator;
 
     [SerializeField] private AudioSource audioSource;
     private AudioClip audioClip;
 
     void Awake()
     {
-        movementMediator = FindAnyObjectByType<MovementMediator>();
+        mediator = FindAnyObjectByType<Mediator>();
     }
 
     private void PlaySound(AudioClip audioClip)
@@ -21,11 +21,11 @@ public class AudioSystem : MonoBehaviour
 
     void OnEnable()
     {
-        movementMediator.OnEnteredEffectiveArea += (sender, args) => { PlaySound(args.AudioClip); };
+        mediator.OnEnteredEffectiveArea += (sender, args) => { PlaySound(args.AudioClip); };
     }
 
     void OnDisable()
     {
-        movementMediator.OnEnteredEffectiveArea -= (sender, args) => { PlaySound(args.AudioClip); };
+        mediator.OnEnteredEffectiveArea -= (sender, args) => { PlaySound(args.AudioClip); };
     }
 }

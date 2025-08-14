@@ -4,7 +4,7 @@ namespace Assets.Scripts.Movement
 {
     public class PlayerMovementController : MonoBehaviour
     {
-        private MovementMediator movementMediator;
+        private Mediator mediator;
 
         private Rigidbody rigidbody;
 
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Movement
         void Awake()
         {
             rigidbody = GetComponent<Rigidbody>();
-            movementMediator = FindAnyObjectByType<MovementMediator>();
+            mediator = FindAnyObjectByType<Mediator>();
         }
 
         void Update()
@@ -56,14 +56,14 @@ namespace Assets.Scripts.Movement
 
         void OnEnable()
         {
-            movementMediator.OnMovementStarted += StartMovement;
-            movementMediator.OnMovementStopped += StopMovement;
+            mediator.OnMovementStarted += StartMovement;
+            mediator.OnMovementStopped += StopMovement;
         }
 
         void OnDisable()
         {
-            movementMediator.OnMovementStarted -= StartMovement;
-            movementMediator.OnMovementStopped -= StopMovement;
+            mediator.OnMovementStarted -= StartMovement;
+            mediator.OnMovementStopped -= StopMovement;
         }
     }
 }

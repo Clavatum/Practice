@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class TriggerPublisher : MonoBehaviour
 {
-    private MovementMediator movementMediator;
+    private Mediator mediator;
 
     [SerializeField] private string areaName;
     [SerializeField] private AudioClip areaClip;
+    [SerializeField] private Vector3 targetScale;
+    [SerializeField] private CapsuleCollider targetCapsuleCollider;
 
     void Awake()
     {
-        movementMediator = FindAnyObjectByType<MovementMediator>();
+        mediator = FindAnyObjectByType<Mediator>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerMovementController>() == null) { return; }
-        movementMediator.TriggerEnteredEffectiveArea(areaName, areaClip);
+        mediator.TriggerEnteredEffectiveArea(areaName, areaClip, targetScale, targetCapsuleCollider);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<PlayerMovementController>() == null) { return; }
-        movementMediator.TriggerExitedEffectiveArea(areaName, areaClip);
+        mediator.TriggerExitedEffectiveArea(areaName, areaClip, targetScale, targetCapsuleCollider);
     }
 }

@@ -1,18 +1,16 @@
-using Assets.Scripts.Movement;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FeedbackSystem : MonoBehaviour
 {
-    private MovementMediator movementMediator;
+    private Mediator mediator;
 
     [SerializeField] private TextMeshProUGUI feedbackText;
     private string areaName;
 
     void Awake()
     {
-        movementMediator = FindAnyObjectByType<MovementMediator>();
+        mediator = FindAnyObjectByType<Mediator>();
     }
 
     public void Feedback(string areaName)
@@ -23,11 +21,11 @@ public class FeedbackSystem : MonoBehaviour
 
     void OnEnable()
     {
-        movementMediator.OnEnteredEffectiveArea += (sender, args) => { Feedback(args.AreaName); };
+        mediator.OnEnteredEffectiveArea += (sender, args) => { Feedback(args.AreaName); };
     }
 
     void OnDisable()
     {
-        movementMediator.OnEnteredEffectiveArea -= (sender, args) => { Feedback(args.AreaName); };
+        mediator.OnEnteredEffectiveArea -= (sender, args) => { Feedback(args.AreaName); };
     }
 }
