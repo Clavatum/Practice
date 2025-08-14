@@ -22,10 +22,12 @@ public class AudioSystem : MonoBehaviour
     void OnEnable()
     {
         mediator.OnEnteredEffectiveArea += (sender, args) => { PlaySound(args.AudioClip); };
+        mediator.OnExitedEffectiveArea += (sender, args) => PlaySound(args.AudioClip);
     }
 
     void OnDisable()
     {
         mediator.OnEnteredEffectiveArea -= (sender, args) => { PlaySound(args.AudioClip); };
+        mediator.OnExitedEffectiveArea -= (sender, args) => PlaySound(args.AudioClip);
     }
 }
